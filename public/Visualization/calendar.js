@@ -22,7 +22,7 @@ function onDateClicked(date, count) {
   if (selectedStart && selectedEnd) {
     var diffStart = Math.abs(selectedStart.date - date);
     var diffEnd = Math.abs(selectedEnd.date - date);
-    // update which ever is closest        
+    // update which ever is closest
     if (diffStart < diffEnd) {
       d3.select(selectedStart.element)
       .style("stroke-width", 0);
@@ -44,23 +44,12 @@ function onDateClicked(date, count) {
   }
 
   if (selectedStart && selectedEnd) {
-    // debugging only 
+    // debugging only
     // console.log("start: " + selectedStart.date.toISOString() + " -> end: " + selectedEnd.date.toISOString());
 
     updateAreaChart(selectedStart.date, selectedEnd.date);
     updateStackedBarData(selectedStart.date, selectedEnd.date);
   }
-}
-
-function updateCalDataSet() {
-  let data = getDataWithDayResolution();
-  // console.log(data);
-  // console.log("start");
-  cal_dataSet = {};
-  _.each(data, function (d) {
-    var dateSeconds = Math.round(d.date.getTime()) / 1000;
-    cal_dataSet[dateSeconds] = sumAllActiveData(d);
-  });
 }
 
 function sumAllActiveData(data) {
@@ -77,15 +66,16 @@ function sumAllActiveData(data) {
   return sum;
 }
 
-function updateCalDataSet() {
+function getCalData() {
   selectedStart = undefined;
   selectedEnd = undefined;
   let data = getDataWithDayResolution();
-  cal_dataSet = {};
+  var cal_dataSet = {};
   _.each(data, function (d) {
     var dateSeconds = Math.round(d.date.getTime()) / 1000;
     cal_dataSet[dateSeconds] = sumAllActiveData(d);
   });
+  return cal_dataSet;
 }
 
 function calendarInit() {
@@ -111,23 +101,23 @@ function drawCalender() {
   document.getElementById("cal-heatmap").innerHTML = "";
   cal = new CalHeatMap();
 
-  updateCalDataSet();
+  var datas = getCalData();
   var startAndEnd = getStartAndEndDates();
   if (!startAndEnd) return;
 
   var max = 0;
-  _.each(_.values(cal_dataSet), v => {
+  _.each(_.values(datas), v => {
     if (v > max) max = v;
   });
 
   var diffTime = Math.abs(startAndEnd.start - startAndEnd.end);
-  var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30)); 
+  var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
   cal.init({
     itemSelector: "#cal-heatmap",
     domain: "month",
     subDomain: "x_day",
     start: startAndEnd.start,
-    data: cal_dataSet,
+    data: datas,
     cellSize: 15,
     cellPadding: 2,
     domainGutter: 20,
