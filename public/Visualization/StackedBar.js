@@ -47,10 +47,10 @@ function sumOfGivenItem(item, startDate, endDate) {
 }
 
 function updateStackedBarData(startDate, endDate) {
-    console.log("stackedbarupdatedata");
-    console.log(g_dataset);
-    console.log("items");
-    console.log(g_itemList);
+    //console.log("stackedbarupdatedata");
+    //console.log(g_dataset);
+    //console.log("items");
+    //console.log(g_itemList);
     stackedBarData = [];
     _.each(g_itemList, function (d) {
         let appliance = {};
@@ -58,8 +58,8 @@ function updateStackedBarData(startDate, endDate) {
         appliance.sum = sumOfGivenItem(d.filename, startDate, endDate);
         stackedBarData.push(appliance);
     });
-    console.log("stackedBarData");
-    console.log(stackedBarData);
+    //console.log("stackedBarData");
+    //console.log(stackedBarData);
 }
 
 function drawStackedBar(){
