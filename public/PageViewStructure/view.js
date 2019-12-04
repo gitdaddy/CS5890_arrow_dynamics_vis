@@ -22,6 +22,7 @@ function onUpdate() {
 function onItemChecked(item){
   //console.log("checked:" + item.value + " - reading in data...");
   setItemSelectStatus(item.value, item.checked);
+  removeStackedBar();
 }
 
 function setItemSelectStatus(filename, status) {

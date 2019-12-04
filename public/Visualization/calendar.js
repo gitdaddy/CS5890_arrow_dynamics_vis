@@ -48,7 +48,7 @@ function onDateClicked(date, count) {
     // console.log("start: " + selectedStart.date.toISOString() + " -> end: " + selectedEnd.date.toISOString());
 
     updateAreaChart(selectedStart.date, selectedEnd.date);
-    updateStackedBarData(selectedStart.date, selectedEnd.date);
+    drawStackedBar(selectedStart.date, selectedEnd.date);
   }
 }
 
@@ -77,6 +77,7 @@ function getCalData() {
   });
   return cal_dataSet;
 }
+
 
 function calendarInit() {
   cal.init({
