@@ -6,8 +6,9 @@
 
 let stackedBarData = [];
 
+let total = 0;
 function totalSum(){
-    let totlSum = 0;
+    total = 0;
     _.each(stackedBarData, function (d) {
         // if(d.date && startDate && endDate){
         //     if(d.date.getTime() >= startDate.getTime() && d.date.getTime() <= endDate.getTime()){
@@ -20,7 +21,7 @@ function totalSum(){
         //         sum += d[item];
         //     }
         // }
-        sum += d[sum];
+        total += d.sum;
     });
 }
 
@@ -41,8 +42,8 @@ function sumOfGivenItem(item, startDate, endDate) {
         // }
         sum += d[item];
     });
-    //console.log("SUM " + item);
-    //console.log(sum);
+    console.log("SUM " + item);
+    console.log(sum);
     return sum;
 }
 
@@ -56,6 +57,8 @@ function updateStackedBarData(startDate, endDate) {
         let appliance = {};
         appliance.name = d.filename;
         appliance.sum = sumOfGivenItem(d.filename, startDate, endDate);
+        appliance.relativeTotal = total;
+        total += appliance.sum;
         stackedBarData.push(appliance);
     });
     //console.log("stackedBarData");
@@ -64,4 +67,47 @@ function updateStackedBarData(startDate, endDate) {
 
 function drawStackedBar(){
     updateStackedBarData();
+
+    //totalSum();
+    console.log(stackedBarData);
+
+    removeStackedBar();
+
+    d3.select("#stackedBarSvg")
+        .attr("width", chartWidth + chartMargin.left + chartMargin.right)
+        .attr("height", "100")
+        .selectAll('rect')
+        .data(stackedBarData)
+        .enter()
+        .append("g")
+        .append("rect")
+        .attr('x', function (d, i) {
+            return scaleBar(d.relativeTotal) + chartMargin.left + 20;
+        })
+        .attr('y', '10')
+        .attr('width', function (d,i) {
+            return scaleBar(d.sum);
+        })
+        .attr('height', "30")
+        .attr("fill", function (d,i) {
+            return colorSet[i];
+        })
+        .attr('value', function (d) {
+            return d.name;
+        })
+        .attr('title', function(d){
+            return d.name;
+        })
+    ;
+}
+
+function removeStackedBar() {
+    d3.select("#stackedBarSvg")
+        .selectAll('rect')
+        .remove()
+    ;
+}
+
+function scaleBar(value){
+    return value/total *(chartWidth + chartMargin.left + chartMargin.right);
 }

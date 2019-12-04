@@ -48,7 +48,7 @@ function onDateClicked(date, count) {
     // console.log("start: " + selectedStart.date.toISOString() + " -> end: " + selectedEnd.date.toISOString());
 
     updateAreaChart(selectedStart.date, selectedEnd.date);
-    updateStackedBarData(selectedStart.date, selectedEnd.date);
+    drawStackedBar();
   }
 }
 
@@ -75,17 +75,6 @@ function sumAllActiveData(data) {
   // console.log("Sum");
   // console.log(sum);
   return sum;
-}
-
-function updateCalDataSet() {
-  selectedStart = undefined;
-  selectedEnd = undefined;
-  let data = getDataWithDayResolution();
-  cal_dataSet = {};
-  _.each(data, function (d) {
-    var dateSeconds = Math.round(d.date.getTime()) / 1000;
-    cal_dataSet[dateSeconds] = sumAllActiveData(d);
-  });
 }
 
 function calendarInit() {
