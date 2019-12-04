@@ -7,23 +7,6 @@
 let stackedBarData = [];
 
 let total = 0;
-function totalSum(){
-    total = 0;
-    _.each(stackedBarData, function (d) {
-        // if(d.date && startDate && endDate){
-        //     if(d.date.getTime() >= startDate.getTime() && d.date.getTime() <= endDate.getTime()){
-        //         console.log("OH WOOW TIS TRUE!");
-        //         console.log(d.date + " : " + startDate);
-        //         console.log(d.date.getTime() + " : " + startDate.getTime());
-        //         console.log(d.date + " : " + endDate);
-        //         console.log(d.date.getTime() + " : " + endDate.getTime());
-        //         throw ("bruh");
-        //         sum += d[item];
-        //     }
-        // }
-        total += d.sum;
-    });
-}
 
 function sumOfGivenItem(item, startDate, endDate) {
     let sum = 0;
@@ -42,8 +25,8 @@ function sumOfGivenItem(item, startDate, endDate) {
         // }
         sum += d[item];
     });
-    console.log("SUM " + item);
-    console.log(sum);
+    //console.log("SUM " + item);
+    //console.log(sum);
     return sum;
 }
 
@@ -65,8 +48,8 @@ function updateStackedBarData(startDate, endDate) {
     //console.log(stackedBarData);
 }
 
-function drawStackedBar(){
-    updateStackedBarData();
+function drawStackedBar(startDate, endDate){
+    updateStackedBarData(startDate, endDate);
 
     //totalSum();
     console.log(stackedBarData);
@@ -102,8 +85,9 @@ function drawStackedBar(){
 }
 
 function removeStackedBar() {
+    console.log("REMOVEING STACKED BAR")
     d3.select("#stackedBarSvg")
-        .selectAll('rect')
+        .selectAll('g')
         .remove()
     ;
 }

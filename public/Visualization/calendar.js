@@ -48,7 +48,7 @@ function onDateClicked(date, count) {
     // console.log("start: " + selectedStart.date.toISOString() + " -> end: " + selectedEnd.date.toISOString());
 
     updateAreaChart(selectedStart.date, selectedEnd.date);
-    drawStackedBar();
+    drawStackedBar(selectedStart.date, selectedEnd.date);
   }
 }
 
