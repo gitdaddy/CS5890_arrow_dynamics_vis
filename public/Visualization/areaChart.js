@@ -14,7 +14,6 @@ let chartLayers;
 
 let areaDateStart = undefined;
 let areaDateEnd = undefined;
-
 let timeRes = "hour";
 
 var xChartScale = d3.scaleTime()

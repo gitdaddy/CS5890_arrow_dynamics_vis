@@ -33,12 +33,15 @@ Date.prototype.addMinutes = function(m){
 
 function loadSelectedItems() {
   // only load the selected items on close
-  var anySelected = false;
-  _.each(getSelectedKeys(), function (key) {
-      anySelected = true;
-      readInDataItem(key, onUpdate); //, areaChartId);
-  });
-  if (!anySelected) onUpdate();
+  var keys = getSelectedKeys();
+  if (keys.length === 0) {
+    // nothing is selected
+    onUpdate();
+    return;
+  }
+  // only call update once all the data
+  // is loaded
+  readInDataItem(keys, onUpdate); //, areaChartId);
 }
 
 function getSelectedKeys() {
@@ -61,8 +64,8 @@ function getDateObj(str) {
   // new Date(year, month, day, hours, minutes, seconds, milliseconds);
   return new Date(
     parseInt(dateArray[2]),
+    parseInt(parseInt(dateArray[1]) - 1), // months are 0 based here
     parseInt(dateArray[0]),
-    parseInt(dateArray[1]),
     parseInt(timeArray[0]),
     parseInt(timeArray[1]),
     parseInt(timeArray[2]));
@@ -118,8 +121,6 @@ function getDataWithHourResolution(keys, valuesArray, numHours = 1, optStartDate
   return hoursResRecords;
 }
 
-// yes some of this could in its own function to reduce duplicate code
-// but I don't have time
 // function getDataWithMinuteResolution(keys, valuesArray, numMinutes = 1, optStartDate = null, optEndDate = null) {
 //   if (valuesArray.length === 0) return [];
 //   var curDate = new Date(valuesArray[0].date.getTime());
@@ -178,7 +179,7 @@ function getDataWithSecondResolution(valuesArray, optStartDate = null, optEndDat
       stopIdx--;
     }
   }
-  // no need to sum the objects 
+  // no need to sum the objects
   // seconds is our highest resolution
   var rslt = [];
   for (var i = curIdx; i < stopIdx; i++){
@@ -210,13 +211,13 @@ function getStartAndEndDates() {
   var foundStartRec = _.find(g_dataset, findFunction);
   if (foundStartRec) startDate = foundStartRec.date;
   // end date search
-  var foundEndRec;  
+  var foundEndRec;
   for (var i = g_dataset.length-1; i > -1; i--) {
     if (findFunction(g_dataset[i])) {
       foundEndRec = g_dataset[i];
       break;
     }
-  } 
+  }
   if (foundEndRec) endDate = foundEndRec.date;
   return {
     start: startDate,
@@ -224,32 +225,40 @@ function getStartAndEndDates() {
   };
 }
 
-function readInDataItem(itemName, onNewDataCallback, optElementId = undefined){
+function readInDataItem(items, onNewDataCallback, optElementId = undefined){
   // if (optElementId) startSpinner(optElementId);
-  if (getItemLoadStatus(itemName) > 0){
-    onNewDataCallback(itemName);
-    return;
-  } 
-  setItemLoadStatus(itemName, 1); // loading
-  d3.csv(`compressedData/${itemName}.csv`).then(function (fileData){
-    _.each(fileData, function(row) {
-      // "12/1/2012 00:00:03;2;3"
-      var valStr = row[_.keys(row)[0]];
-      if (valStr !== "") {
-        var str1 = valStr.split(";");
-        if (str1[0] && str1[0] !== " ") {
-          if (!fileDataSet[str1[0]]) {
-            fileDataSet[str1[0]] = createNewDatasetRecord(str1[0]);
+  var count = 1;
+  _.each(items, itemName => {
+    if (getItemLoadStatus(itemName) > 0){
+      onNewDataCallback(itemName);
+      return;
+    }
+    setItemLoadStatus(itemName, 1); // loading
+    d3.csv(`compressedData/${itemName}.csv`).then(function (fileData){
+      _.each(fileData, function(row) {
+        // "12/1/2012 00:00:03;2;3"
+        var valStr = row[_.keys(row)[0]];
+        if (valStr !== "") {
+          var str1 = valStr.split(";");
+          if (str1[0] && str1[0] !== " ") {
+            if (!fileDataSet[str1[0]]) {
+              fileDataSet[str1[0]] = createNewDatasetRecord(str1[0]);
+            }
+            fileDataSet[str1[0]][itemName] = parseInt(str1[2]);
           }
-          fileDataSet[str1[0]][itemName] = parseInt(str1[2]);
         }
+      });
+      // [ {date:123, Alarmclock:#, CoffeeMaker:# ... key3: , key4 ...}, ... ]
+      g_dataset = _.sortBy(_.values(fileDataSet), "date");
+      setItemLoadStatus(itemName, 2); // loaded
+      // only load when finished with
+      // whole dataset
+      if (count === items.length) {
+        // stopSpinner();
+        onNewDataCallback();
       }
+      count++;
     });
-    // [ {date: Alarmclock:#, CoffeeMaker:# ... key3: , key4 ...} ]
-    g_dataset = _.sortBy(_.values(fileDataSet), "date");
-    setItemLoadStatus(itemName, 2); // loaded
-    // stopSpinner();
-    onNewDataCallback(itemName);
   });
 }
 
