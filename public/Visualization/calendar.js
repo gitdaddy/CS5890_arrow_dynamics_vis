@@ -1,13 +1,10 @@
-/*
-{
-	"946721039":1,
-	"946706853":1,
-	"946706340":1
-}
- */
 
 let cal_dataSet = {};
 let cal = new CalHeatMap();
+
+let currentSelectedYear = undefined;
+let currentMaxValue = 0;
+let gTime;
 
 let selectedStart = undefined;
 let selectedEnd = undefined;
@@ -56,30 +53,32 @@ function sumAllActiveData(data) {
   // console.log(data);
   let sum = 0;
   for (let i in g_itemList) {
-    //console.log(i);
-    //console.log(g_itemList[i]);
-    // console.log(data[g_itemList[i]['filename']]);
     sum += parseInt(data[g_itemList[i]['filename']]);
   }
-  // console.log("Sum");
-  // console.log(sum);
   return sum;
 }
 
-function getCalData() {
+function setCalDataset() {
   selectedStart = undefined;
   selectedEnd = undefined;
   let data = getDataWithDayResolution();
-  var cal_dataSet = {};
+  cal_dataSet = {};
   _.each(data, function (d) {
     var dateSeconds = Math.round(d.date.getTime()) / 1000;
     cal_dataSet[dateSeconds] = sumAllActiveData(d);
   });
-  return cal_dataSet;
 }
 
 
 function calendarInit() {
+  gTime = d3
+  .select('div#slider-time')
+  .append('svg')
+  .attr('width', 500)
+  .attr('height', 100)
+  .append('g')
+  .attr('transform', 'translate(30,30)');
+
   cal.init({
     itemSelector: "#cal-heatmap",
     domain: "month",
@@ -89,7 +88,7 @@ function calendarInit() {
     cellSize: 15,
     cellPadding: 2,
     domainGutter: 20,
-    range: 10,
+    range: 12,
     domainDynamicDimension: true,
     subDomainTextFormat: "%d",
     legend: [20, 40, 60, 80]
@@ -97,43 +96,70 @@ function calendarInit() {
 }
 
 function drawCalender() {
+  setCalDataset();
+  var startAndEnd = getStartAndEndDates();
+  if (!startAndEnd) return;
+
+  // Year slider
+  var range = startAndEnd.end.getFullYear() - startAndEnd.start.getFullYear();
+  if (range > 0) {
+    d3.select('div#slider-time').style("visibility", "unset");
+    currentSelectedYear = startAndEnd.start.getFullYear();
+    var dataTime = d3.range(0, range + 1).map(function(d) {
+      return new Date(startAndEnd.start.getFullYear() + d, 0, 1);
+    });
+    var sliderTime = d3
+      .sliderBottom()
+      .min(d3.min(dataTime))
+      .max(d3.max(dataTime))
+      .step(1000 * 60 * 60 * 24 * 365)
+      .width(300)
+      .tickFormat(d3.timeFormat('%Y'))
+      .tickValues(dataTime)
+      .default(new Date(1998, 10, 3))
+      .on('onchange', val => {
+        console.log("slider year changed to:" + val);
+        if (val.getFullYear() !== currentSelectedYear) {
+          selectedStart = undefined;
+          selectedEnd = undefined;
+          currentSelectedYear = val.getFullYear();
+          setHeatMap(new Date(currentSelectedYear, 0, 1));
+        }
+      });
+
+    gTime.call(sliderTime);
+  } else {
+    d3.select('div#slider-time').style("visibility", "hidden");
+  }
+
+  _.each(_.values(cal_dataSet), v => {
+    if (v > currentMaxValue) currentMaxValue = v;
+  });
+
+  setHeatMap(new Date(startAndEnd.start.getFullYear(), 0, 1));
+}
+
+function setHeatMap(startDate) {
   d3.select('#area-chart').style("visibility", "hidden");
   // reset calendar area
   document.getElementById("cal-heatmap").innerHTML = "";
   cal = new CalHeatMap();
 
-  var datas = getCalData();
-  var startAndEnd = getStartAndEndDates();
-  if (!startAndEnd) return;
-
-  var max = 0;
-  _.each(_.values(datas), v => {
-    if (v > max) max = v;
-  });
-
-  var diffTime = Math.abs(startAndEnd.start - startAndEnd.end);
-  var diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30));
   cal.init({
     itemSelector: "#cal-heatmap",
     domain: "month",
     subDomain: "x_day",
-    start: startAndEnd.start,
-    data: datas,
+    start: startDate,
+    data: cal_dataSet,
     cellSize: 15,
     cellPadding: 2,
     domainGutter: 20,
-    range: diffMonths,
+    range: 12, // 12 months
     domainDynamicDimension: true,
-    //previousSelector: "#example-g-PreviousDomain-selector",
-    //nextSelector: "#example-g-NextDomain-selector",
-    //domainLabelFormat: function(date) {
-    //    moment.lang("en");
-    //    return moment(date).format("MMMM").toUpperCase();
-    //},
     displayLegend: true,
     subDomainTextFormat: "%d",
     browsing: true,
     onClick: onDateClicked,
-    legend: [100, max * 0.25, max * 0.50, max * 0.75]
+    legend: [100, currentMaxValue * 0.25, currentMaxValue * 0.50, currentMaxValue * 0.75]
   });
 }

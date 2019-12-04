@@ -16,7 +16,7 @@ let g_itemList = [
   { label: "Dvd Player", filename: "DvdPlayer", loadOnStart: false, loadStatus: 0, selected: false },
   { label: "Ethernet Switch", filename: "EthernetSwitch", loadOnStart: false, loadStatus: 0, selected: false },
   { label: "Freezer", filename: "Freezer", loadOnStart: false, loadStatus: 0, selected: false },
-  { label: "Iron", filename: "Iron", loadOnStart: false, loadStatus: 0, selected: false },
+  { label: "Steam Iron", filename: "Iron", loadOnStart: false, loadStatus: 0, selected: false },
   { label: "Lamp", filename: "Lamp", loadOnStart: false, loadStatus: 0, selected: false },
   { label: "Laundry Dryer", filename: "LaundryDryer", loadOnStart: false, loadStatus: 0, selected: false },
   { label: "Microwave Oven", filename: "MicrowaveOven", loadOnStart: false, loadStatus: 0, selected: false },
