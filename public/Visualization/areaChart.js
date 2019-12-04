@@ -14,6 +14,7 @@ let chartLayers;
 
 let areaDateStart = undefined;
 let areaDateEnd = undefined;
+let updateDataSelection;
 
 let timeRes = "hour";
 
@@ -70,12 +71,12 @@ function rescaleXAxis(startDate, endDate) {
   var tickFormat;
   if (timeRes === "hour") {
     tickFormat = d3.timeHour;
-  } else if (timeRes === "minute") { 
+  } else if (timeRes === "minute") {
     tickFormat = d3.timeMinute;
   } else {
     tickFormat = d3.timeSecond;
   }
-  
+
   xChartScale = d3.scaleTime()
     .domain([startDate, endDate])
     .nice(tickFormat)
@@ -103,11 +104,12 @@ function updateAreaChart(startDate, endDate) {
   areaDateEnd = endDate;
   // show the area chart
   d3.select('#area-chart').style("visibility", "unset");
-  
+  if (updateDataSelection) updateDataSelection.remove();
+
   // rescale the chart to the new dates
   rescaleXAxis(startDate, endDate);
   var keys = getSelectedKeys(); // we only care about the selected keys
-  var timeResValues;
+  var timeResValues = [];
   if (timeRes === "hour") {
     timeResValues = getDataWithHourResolution(keys, g_dataset, 1, startDate, endDate);
   } else if (timeRes === "minute") {
@@ -117,7 +119,7 @@ function updateAreaChart(startDate, endDate) {
   }
   rescaleYAxis(timeResValues);
   var series = d3.stack().keys(keys)(timeResValues);
-  chartLayers.selectAll("path")
+  updateDataSelection = chartLayers.selectAll("path")
     .data(series)
     .join("path")
       .attr("fill", ({key}) => chartColorScale(key))

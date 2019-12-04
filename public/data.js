@@ -7,6 +7,9 @@ python -m SimpleHTTPServer
 python -m http.server
 */
 
+// contains the indexes into the
+// g_dataset array
+// { 11/2/2012: 2}
 let fileDataSet = {};
 
 // global dataset of records ordered by date of recording
@@ -29,12 +32,18 @@ Date.prototype.addMinutes = function(m){
 
 function loadSelectedItems() {
   // only load the selected items on close
-  var keys = getSelectedKeys();
+  var keys = _.map(g_itemList, item => {
+    if (item.loadStatus === 0 && item.selected) {
+      return item.filename;
+    }
+  });
+  keys = _.compact(keys);
   if (keys.length === 0) {
     // nothing is selected
     onUpdate();
     return;
   }
+
   // only call update once all the data
   // is loaded
   readInDataItem(keys, onUpdate); //, areaChartId);
@@ -226,38 +235,40 @@ function readInDataItem(items, onNewDataCallback, optElementId = undefined){
   var count = 1;
   _.each(items, itemName => {
     if (getItemLoadStatus(itemName) > 0){
-      onNewDataCallback(itemName);
-      return;
-    }
-    setItemLoadStatus(itemName, 1); // loading
-    d3.csv(`compressedData/${itemName}.csv`).then(function (fileData){
-      _.each(fileData, function(row) {
-        // "12/1/2012 00:00:03;2;3"
-        var valStr = row[_.keys(row)[0]];
-        if (valStr !== "") {
-          var str1 = valStr.split(";");
-          if (str1[0] && str1[0] !== " ") {
-            if (!fileDataSet[str1[0]]) {
-              fileDataSet[str1[0]] = createNewDatasetRecord(str1[0]);
-            }
-            fileDataSet[str1[0]][itemName] = parseInt(str1[2]);
-          }
-        }
-      });
-      // [ {date:123, Alarmclock:#, CoffeeMaker:# ... key3: , key4 ...}, ... ]
-      g_dataset = _.sortBy(_.values(fileDataSet), "date");
-      setItemLoadStatus(itemName, 2); // loaded
-      // only load when finished with
-      // whole dataset
-      if (count === items.length) {
-        // stopSpinner();
-        onNewDataCallback();
-      }
       count++;
-    });
+    } else {
+      setItemLoadStatus(itemName, 1); // loading
+      d3.csv(`compressedData/${itemName}.csv`).then(function (fileData){
+        _.each(fileData, function(row) {
+          // "12/1/2012 00:00:03;2;3"
+          var valStr = row[_.keys(row)[0]];
+          if (valStr !== "") {
+            var str1 = valStr.split(";");
+            if (str1[0] && str1[0] !== " ") {
+              var optIdx = fileDataSet[str1[0]];
+              if (!optIdx) {
+                g_dataset.push(createNewDatasetRecord(str1[0]));
+                optIdx = g_dataset.length-1;
+                fileDataSet[str1[0]] = g_dataset.length-1;
+              }
+              g_dataset[optIdx][itemName] = parseInt(str1[2]);
+            }
+          }
+        });
+        setItemLoadStatus(itemName, 2); // loaded
+        if (count === items.length) {
+          // all items are done loading
+          g_dataset = _.sortBy(g_dataset, "date");
+          // stopSpinner();
+          onNewDataCallback();
+        }
+        count++;
+      });
+    }
   });
 }
 
+// [ {date:123, Alarmclock:#, CoffeeMaker:# ... key3: , key4 ...}, ... ]
 function createNewDatasetRecord(dateStr, optDate = null) {
   var startVal = 0;
   // return a record object having a default value for each item
