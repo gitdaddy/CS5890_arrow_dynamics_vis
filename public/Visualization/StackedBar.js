@@ -11,7 +11,9 @@ let total = 0;
 function sumOfGivenItem(item, startDate, endDate) {
     let sum = 0;
 
-    _.each(g_dataset, function (d) {
+    let items = [];
+    items.push(item);
+    _.each(getDataWithHourResolution(items, g_dataset, startDate, endDate), function (d) {
         // if(d.date && startDate && endDate){
         //     if(d.date.getTime() >= startDate.getTime() && d.date.getTime() <= endDate.getTime()){
         //         console.log("OH WOOW TIS TRUE!");
