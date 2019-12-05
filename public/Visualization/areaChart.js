@@ -1,6 +1,6 @@
 "using strict";
 
-// file for drawing d3 managed svgs
+// file for drawing the area chart
 
 // globals
 let chartMargin = {top: 50, right: 50, bottom: 50, left: 50},

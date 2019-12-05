@@ -235,7 +235,6 @@ function getStartAndEndDates() {
 }
 
 function readInDataItem(items, onNewDataCallback, optElementId = undefined){
-  // if (optElementId) startSpinner(optElementId);
   var count = 1;
   _.each(items, itemName => {
     if (getItemLoadStatus(itemName) > 0){
