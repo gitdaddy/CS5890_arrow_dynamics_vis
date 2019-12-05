@@ -95,6 +95,11 @@ function calendarInit() {
   });
 }
 
+function resetDates(){
+  selectedStart = undefined;
+  selectedEnd = undefined;
+  drawCalender();
+}
 function drawCalender() {
   setCalDataset();
   var startAndEnd = getStartAndEndDates();
