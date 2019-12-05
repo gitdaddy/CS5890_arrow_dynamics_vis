@@ -31,11 +31,8 @@ function sumOfGivenItem(item, startDate, endDate) {
 }
 
 function updateStackedBarData(startDate, endDate) {
-    //console.log("stackedbarupdatedata");
-    //console.log(g_dataset);
-    //console.log("items");
-    //console.log(g_itemList);
     let theData = [];
+    total = 0;
     _.each(getSelectedKeys(), function (d) {
         for(let i in g_itemList){
             if(d === g_itemList[i].filename){
@@ -49,22 +46,17 @@ function updateStackedBarData(startDate, endDate) {
         }
 
     });
-    //console.log("stackedBarData");
-    //console.log(stackedBarData);
     stackedBarData = theData;
 }
 
 function drawStackedBar(startDate, endDate){
     updateStackedBarData(startDate, endDate);
 
-    //totalSum();
-    console.log(stackedBarData);
-
     removeStackedBar();
 
     d3.select("#stackedBarSvg")
-        .attr("width", chartWidth + chartMargin.left + chartMargin.right + 20)
-        .attr("height", "40")
+        .attr("width", (chartWidth + chartMargin.left + chartMargin.right) *2)
+        .attr("height", "100")
         .selectAll('rect')
         .data(stackedBarData)
         .enter()
@@ -90,14 +82,14 @@ function drawStackedBar(startDate, endDate){
     ;
 
     let boxes = d3.select("#legendSvg")
-        .attr("width", chartWidth + chartMargin.left + chartMargin.right + 20)
-        .attr("height", "100")
+        .attr("width", (chartWidth + chartMargin.left + chartMargin.right) *2)
+        .attr("height", "50")
         .selectAll('rect')
         .data(getSelectedKeys())
         .enter()
         .append("g");
 
-        boxes.append("rect")
+    boxes.append("rect")
         .attr('x', function (d, i) {
             return i * 180 + chartMargin.left;
         })
@@ -113,9 +105,6 @@ function drawStackedBar(startDate, endDate){
 
     boxes.append("text")
         .attr("x", function(d,i) {
-            console.log(i);
-            console.log(i);
-            console.log(i);
             return i * 180 + 75;
         })
         .attr("y", '20')
@@ -130,7 +119,6 @@ function drawStackedBar(startDate, endDate){
 }
 
 function removeStackedBar() {
-    console.log("REMOVEING STACKED BAR");
     d3.select("#stackedBarSvg")
         .selectAll('g')
         .remove()
