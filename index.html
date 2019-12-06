@@ -4,19 +4,17 @@
 <head>
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="spin.css">
     <link rel="stylesheet" href="cal-heatmap.css">
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://unpkg.com/d3-simple-slider"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="lodash.min.js"></script>
     <script src="cal-heatmap.min.js"></script>
-    <script type="text/javascript" src="./spin.js"></script>
     <script type="text/javascript" src="./public/PageViewStructure/sideBar.js"></script>
     <script type="text/javascript" src="./public/PageViewStructure/view.js"></script>
-    <script type="text/javascript" src="./public/PageViewStructure/spinUtils.js"></script>
     <script type="text/javascript" src="./public/Visualization/areaChart.js"></script>
     <script type="text/javascript" src="./public/Visualization/calendar.js"></script>
+    <script type="text/javascript" src="./public/Visualization/legend.js"></script>
     <script type="text/javascript" src="./public/Visualization/StackedBar.js"></script>
     <script type="text/javascript" src="./public/data.js"></script>
 
@@ -44,17 +42,29 @@
 
     <div id="content">
         <div id="calendar">
-            <h2>Calendar Overview</h2>
-            <div>
-                <button onclick="resetDates()">Reset Dates</button>
+            <div class="row">
+                <div class="column-item">
+                    <svg id="legendSvg" width="500" height="0"></svg>
+                </div>
             </div>
-            <div class="row align-items-center">
-                <div class="col-sm"><div id="slider-time"></div></div>
+            <div class="row">
+                <div class="column-item">
+                    <button onclick="resetDates()">Reset Dates</button>
+                </div>
+                <div class="column-item">
+                    <div class="col-sm"><div id="slider-time"></div></div>
+                </div>
             </div>
+            <h3>Calendar Overview</h3>
             <div id="cal-heatmap"></div>
         </div>
+        <div id="stacked-bar">
+            <h3>Total share of usage for selected items</h3>
+            <svg id="stackedBarSvg">
+            </svg>
+        </div>
         <div id="area-chart">
-            <h2>Power Usage Overview</h2>
+            <h3>Power Usage Overview</h3>
             <div>
                 <select onchange="resChange()" id="time-res">
                     <label>Time resolution</label>
@@ -67,18 +77,6 @@
                 <svg id="areaChartSvg"></svg>
             </div>
         </div>
-        <!-- commented this out only temporary until it is implemented -->
-        <div id="stacked-bar">
-            <div id="legend">
-                <svg id="legendSvg">
-                </svg>
-            </div>
-            <h3>Total share of usage for selected data</h3>
-            <svg id="stackedBarSvg">
-
-            </svg>
-        </div>
-
     </div>
 
     <!--This must be below all content as the button is not clickable otherwise-->

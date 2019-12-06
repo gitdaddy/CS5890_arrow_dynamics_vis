@@ -1,7 +1,7 @@
 "using strict";
 
-/* Page layout 
-Defines what happens 
+/* Page layout
+Defines what happens
 when a user interacts with the view
 
 Item helper functions
@@ -17,10 +17,22 @@ function isItemSelected(filename) {
 function onUpdate() {
   // when new data is selected
   drawCalender();
+  drawLegend();
+}
+
+function hideViews() {
+  d3.select("#legendSvg")
+  .selectAll('g')
+  .remove()
+  ;
+
+  d3.select('div#slider-time').style("visibility", "hidden");
+  d3.select('#area-chart').style("visibility", "hidden");
+  d3.select('#stacked-bar').style("visibility", "hidden");
+  d3.select('#calendar').style("visibility", "hidden");
 }
 
 function onItemChecked(item){
-  //console.log("checked:" + item.value + " - reading in data...");
   setItemSelectStatus(item.value, item.checked);
   removeStackedBar();
 }
@@ -60,6 +72,8 @@ function pageInit() {
       return `<input type="checkbox" value="${d.filename}" onclick="onItemChecked(this)" /> ${d.label}`;
     })
     ;
+
+  d3.select('#stacked-bar').style("visibility", "hidden");
 
   drawAreaChartInit();
   calendarInit();

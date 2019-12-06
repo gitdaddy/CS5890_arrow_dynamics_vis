@@ -4,6 +4,18 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+/* Create three equal columns that floats next to each other */
+.column-item {
+  float: left;
+  padding: 5px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .brush .selection {
   fill-opacity: .5;
 }
@@ -76,7 +88,7 @@ body {
 #content {
   transition: margin-left .5s;
   position: absolute;
-  padding-top: 100px;
+  padding-top: 60px;
   padding-left: 9%;
   left: 0;
   right:0;
@@ -100,7 +112,7 @@ body {
   float: left;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 10px;
   text-decoration: none;
   font-size: 17px;
 }

@@ -35,6 +35,11 @@ Date.prototype.addMinutes = function(m){
 };
 
 function loadSelectedItems() {
+  if (getSelectedKeys().length === 0) {
+    // nothing is selected
+    hideViews();
+    return;
+  }
   // only load the selected items on close
   var keys = _.map(g_itemList, item => {
     if (item.loadStatus === 0 && item.selected) {
@@ -43,11 +48,9 @@ function loadSelectedItems() {
   });
   keys = _.compact(keys);
   if (keys.length === 0) {
-    // nothing is selected
     onUpdate();
     return;
   }
-
   // only call update once all the data
   // is loaded
   readInDataItem(keys, onUpdate); //, areaChartId);
@@ -63,12 +66,10 @@ function getSelectedKeys() {
 function getDateObj(str) {
   if (str === "") return new Date();
   var dateStr = str.split(" ");
-  if (!dateStr[0] || !dateStr[1]) {
-    // throw "Invalid date";
-    console.log("date str empty");
-    return new Date();
-  }
   var dateArray = dateStr[0].split("/");
+  if (!dateStr[1]) {
+    debugger;
+  }
   var timeArray = dateStr[1].split(":");
   // new Date(year, month, day, hours, minutes, seconds, milliseconds);
   return new Date(

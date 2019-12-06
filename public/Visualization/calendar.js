@@ -41,16 +41,12 @@ function onDateClicked(date, count) {
   }
 
   if (selectedStart && selectedEnd) {
-    // debugging only
-    // console.log("start: " + selectedStart.date.toISOString() + " -> end: " + selectedEnd.date.toISOString());
-
     updateAreaChart(selectedStart.date, selectedEnd.date);
     drawStackedBar(selectedStart.date, selectedEnd.date);
   }
 }
 
 function sumAllActiveData(data) {
-  // console.log(data);
   let sum = 0;
   for (let i in g_itemList) {
     sum += parseInt(data[g_itemList[i]['filename']]);
@@ -75,9 +71,9 @@ function calendarInit() {
   .select('div#slider-time')
   .append('svg')
   .attr('width', 500)
-  .attr('height', 100)
+  .attr('height', 55)
   .append('g')
-  .attr('transform', 'translate(30,30)');
+  .attr('transform', 'translate(30,10)');
 
   cal.init({
     itemSelector: "#cal-heatmap",
@@ -101,6 +97,8 @@ function resetDates(){
   drawCalender();
 }
 function drawCalender() {
+  d3.select('#calendar').style("visibility", "unset");
+
   setCalDataset();
   var startAndEnd = getStartAndEndDates();
   if (!startAndEnd) return;
@@ -123,7 +121,6 @@ function drawCalender() {
       .tickValues(dataTime)
       .default(new Date(1998, 10, 3))
       .on('onchange', val => {
-        console.log("slider year changed to:" + val);
         if (val.getFullYear() !== currentSelectedYear) {
           selectedStart = undefined;
           selectedEnd = undefined;

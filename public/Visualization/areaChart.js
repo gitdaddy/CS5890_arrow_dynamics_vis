@@ -4,8 +4,8 @@
 
 // globals
 let chartMargin = {top: 50, right: 50, bottom: 50, left: 50},
-    chartWidth = 1000 - chartMargin.left - chartMargin.right,
-    chartHeight = 700 - chartMargin.top - chartMargin.bottom;
+    chartWidth = 1400 - chartMargin.left - chartMargin.right,
+    chartHeight = 350 - chartMargin.top - chartMargin.bottom;
 
 let xChartAxis;
 let yChartAxis;
@@ -24,7 +24,7 @@ var xChartScale = d3.scaleTime()
     .range([chartMargin.left, chartWidth - chartMargin.right]);
 
 let yChartScale = d3.scaleLinear()
-    .domain([0, 1600])
+    .domain([0, 1000])
     .range([chartHeight, 0]);
 
 var area = d3.area()
@@ -94,7 +94,7 @@ function rescaleYAxis(values) {
   });
 
   yChartScale = d3.scaleLinear()
-    .domain([0, max])
+    .domain([0, max * 0.75])
     .range([chartHeight, 0]);
   yChartAxis.transition().duration(1000).call(d3.axisLeft(yChartScale));
 }
