@@ -1,7 +1,7 @@
 # Arrow Dynamics
 
 ## Basic Info ##
-Project Name: Energy Wars
+Project Name: Energy Awareness
 
 ### Team Members:
 Daniel Marsden
@@ -138,19 +138,16 @@ This view gives an overview of the time series data for the selected appliances.
 ### Stacked Bar ###
   This visualization is a single bar, the length of which represents the total power used for the selected time frame selected with the calendar view or the stacked area graph. Each selected appliance is represented with a separate color and has a length based on the percentage of the total power used.
 
-### Small Multiples ###
-  This visualization is made up of multiple line charts, one for each appliance selected. Each is a line chart which shows the total usage for that appliance over the selected time frame, days if selection greater than a week, hours if a day and minuets if an hour.
-
-### Must Have Features ###
+## Must Have Features ##
 * The user will be able to select which appliances they are interested in, this should update all visualizations accordingly.
 * The user will be able to select which days or weeks to see time series data for, this will be updated on an area graph. This chart will have the usage for the selected appliances, the scale will change as more or less days are selected.
 * The user will be able to compare the average daily use of selected appliances on an area chart. This area chart will have the average usage for each hour in a day.
 
-### Optional Features ###
+## Optional Features ##
 * A game in which the usage for an unlabeled appliance is shown. The user then has to guess which appliance is shown. When an incorrect appliance is shown the selected appliance usage is shown. This game is intended to show users how many appliances it takes to match the usage of the appliance that uses the most energy.
 
-### Final Design ###
-In the final design we plan to have the user interact with the calendar view to select the time frame they are interested in. When the user selects a time frame the other visualizations are updated for that time frame. The user will be able to navigate to the visualizations by scrolling or by selecting the visualization from the navigation bar. The user will also be able to select the appliances they are interested in by opening the sidebar in which the available appliances can be selected by checking the corresponding checkbox.
+## Final Design ##
+In the final design we plan to have the user interact with the calendar view to select the time frame they are interested in. When the user selects a time frame the other visualizations are updated for that time frame. The user will also be able to select the appliances they are interested in by opening the sidebar in which the available appliances can be selected by checking the corresponding checkbox.
 
 ----
 
