@@ -20,7 +20,7 @@ let timeRes = "hour";
 
 var xChartScale = d3.scaleTime()
     .domain([new Date, new Date])
-    .nice(d3.timeWeek)
+    .nice(d3.timeHour)
     .range([chartMargin.left, chartWidth - chartMargin.right]);
 
 let yChartScale = d3.scaleLinear()
@@ -55,8 +55,9 @@ function drawAreaChartInit() {
 
   xChartAxis = chartSvg.append('g')
   .attr("transform", `translate(${chartMargin.left}, ${chartHeight})`)
-  .call(d3.axisBottom(xChartScale))
-  .append("text")             
+  .call(d3.axisBottom(xChartScale));
+
+  xChartAxis.append("text")             
   .attr("transform",
         "translate(" + (chartWidth/2) + " ," + 
                        30 + ")")
@@ -68,7 +69,6 @@ function drawAreaChartInit() {
   yChartAxis = chartSvg.append('g')
   .attr("transform", `translate(${chartMargin.left},0)`)
   .call(d3.axisLeft(yChartScale));
-
 
   yChartAxis.append("text")
   .attr("y", 0 - (chartMargin.left  + 15))
@@ -89,8 +89,6 @@ function rescaleXAxis(startDate, endDate) {
   var tickFormat;
   if (timeRes === "hour") {
     tickFormat = d3.timeHour;
-  } else if (timeRes === "minute") {
-    tickFormat = d3.timeMinute;
   } else {
     tickFormat = d3.timeSecond;
   }
@@ -98,7 +96,7 @@ function rescaleXAxis(startDate, endDate) {
   xChartScale = d3.scaleTime()
     .domain([startDate, endDate])
     .nice(tickFormat)
-    .range([0, chartWidth]);
+    .range([chartMargin.left, chartWidth - chartMargin.right]);
     xChartAxis.transition().duration(1000).call(d3.axisBottom(xChartScale));
 }
 

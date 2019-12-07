@@ -58,5 +58,6 @@ function closeNav() {
   document.getElementById("main").style.marginLeft = "0";
   document.getElementById("content").style.marginLeft = "0";
   document.getElementById("main").style.visibility = "visible";
+  // load all the items selected while the tab was open
   loadSelectedItems();
 }

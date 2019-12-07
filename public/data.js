@@ -1,12 +1,5 @@
 "use strict";
 
-/*
-# python 2
-python -m SimpleHTTPServer
-# python 3
-python -m http.server
-*/
-
 // contains the indexes into the
 // g_dataset array
 // { 11/2/2012: 2}
@@ -15,8 +8,6 @@ let fileDataSet = {};
 // global dataset of records ordered by date of recording
 // [ {date: Alarmclock:, CoffeeMaker: ... key3: , key4 ...} ]
 let g_dataset = [];
-
-// const allKeys = _.map(g_itemList, item => {return item.filename});
 
 let areaChartId = "area-chart";
 
@@ -36,6 +27,7 @@ function loadSelectedItems() {
     hideViews();
     return;
   }
+  legendShowLoading();
   // only load the selected items on close
   var keys = _.map(g_itemList, item => {
     if (item.loadStatus === 0 && item.selected) {
@@ -60,11 +52,11 @@ function getSelectedKeys() {
 }
 
 function getDateObj(str) {
-  if (str === "") return new Date();
+  if (str === "") return null;
   var dateStr = str.split(" ");
   var dateArray = dateStr[0].split("/");
   if (!dateStr[1]) {
-    debugger;
+    return null;
   }
   var timeArray = dateStr[1].split(":");
   // new Date(year, month, day, hours, minutes, seconds, milliseconds);
@@ -126,48 +118,6 @@ function getDataWithHourResolution(keys, valuesArray, numHours = 1, optStartDate
   hoursResRecords.push(sumObj);
   return hoursResRecords;
 }
-
-// function getDataWithMinuteResolution(keys, valuesArray, numMinutes = 1, optStartDate = null, optEndDate = null) {
-//   if (valuesArray.length === 0) return [];
-//   var curDate = new Date(valuesArray[0].date.getTime());
-//   var curIdx = 0;
-//   var stopIdx = valuesArray.length - 1;
-//   if (optStartDate && optEndDate) {
-//     if (optStartDate > valuesArray[valuesArray.length-1].date) return [];
-//     if (optEndDate < valuesArray[0].date) return [];
-//     // get start idx
-//     while (valuesArray[curIdx].date < optStartDate) {
-//       curIdx++;
-//     }
-//     curDate = new Date(valuesArray[curIdx].date.getTime());
-
-//     while (valuesArray[stopIdx].date > optEndDate) {
-//       stopIdx--;
-//     }
-//   }
-
-//   var minRecord = [];
-//   curDate.addMinutes(numMinutes);
-//   var sumObj = createNewDatasetRecord("", curDate);
-//   for(var i = curIdx; i < stopIdx; i++) {
-//     if (valuesArray[i].date > curDate) {
-//       // update hour record
-//       minRecord.push(sumObj);
-//       curDate.addMinutes(numMinutes);
-//       sumObj = createNewDatasetRecord("", curDate);
-//     }
-//     // otherwise add the record values
-//     _.each(keys, function(key) {
-//       if(_.isNaN(valuesArray[i][key])) {
-//         throw "NaN value discovered!!";
-//       }
-//       sumObj[key] += valuesArray[i][key];
-//     });
-//   }
-//   // add the final sum object for the last hour
-//   minRecord.push(sumObj);
-//   return minRecord;
-// }
 
 function getDataWithSecondResolution(valuesArray, optStartDate = null, optEndDate = null) {
   if (valuesArray.length === 0) return [];
@@ -247,19 +197,32 @@ function readInDataItem(items, onNewDataCallback, optElementId = undefined){
             if (str1[0] && str1[0] !== " ") {
               var optIdx = fileDataSet[str1[0]];
               if (!optIdx) {
-                g_dataset.push(createNewDatasetRecord(str1[0]));
-                optIdx = g_dataset.length-1;
-                fileDataSet[str1[0]] = g_dataset.length-1;
+                var optRecord = createNewDatasetRecord(str1[0]);
+                if (optRecord) {
+                  g_dataset.push(optRecord);
+                  optIdx = g_dataset.length-1;
+                  fileDataSet[str1[0]] = g_dataset.length-1;
+                }
               }
-              g_dataset[optIdx][itemName] = parseInt(str1[2]);
+              if (optIdx) {
+                g_dataset[optIdx][itemName] = parseInt(str1[2]);
+              }
             }
           }
         });
         setItemLoadStatus(itemName, 2); // loaded
         if (count === items.length) {
           // all items are done loading
+          
+          /* date is unique
+          Data is ordered by the date
+          [
+          oldest 2011 {date: javascript date obj ,a:10, b:#},
+            {....},
+          newest 2012 {....}
+          ]
+          */
           g_dataset = _.sortBy(g_dataset, "date");
-          // stopSpinner();
           onNewDataCallback();
         }
         count++;
@@ -273,19 +236,11 @@ function createNewDatasetRecord(dateStr, optDate = null) {
   var startVal = 0;
   // return a record object having a default value for each item
   // in the items list
-  var record = {date: optDate ? new Date(optDate.getTime()) : getDateObj(dateStr)};
+  var date = optDate ? new Date(optDate.getTime()) : getDateObj(dateStr);
+  if (!date) return null;
+  var record = {date: date};
   _.each(g_itemList, function (item) {
     record[item.filename] = startVal;
   });
   return record;
 }
-
-
-/* date is unique
-Data is ordered
-[
- oldest 2011 {date: javascript date obj ,a:10, b:#},
-  {....},
- newest 2012 {....}
-]
-*/

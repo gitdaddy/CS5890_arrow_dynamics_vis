@@ -1,11 +1,6 @@
 "using strict";
 
-/* Page layout
-Defines what happens
-when a user interacts with the view
-
-Item helper functions
-*/
+/* Page layout*/
 
 function isItemSelected(filename) {
   var item = _.find(g_itemList, function (i) {
@@ -21,11 +16,7 @@ function onUpdate() {
 }
 
 function hideViews() {
-  d3.select("#legendSvg")
-  .selectAll('g')
-  .remove()
-  ;
-
+  drawLegend();
   d3.select('div#slider-time').style("visibility", "hidden");
   d3.select('#area-chart').style("visibility", "hidden");
   d3.select('#stacked-bar-total').style("visibility", "hidden");
@@ -77,6 +68,7 @@ function pageInit() {
 
   d3.select('#stacked-bar-total').style("visibility", "hidden");
   d3.select('#stacked-bar').style("visibility", "hidden");
+  d3.select('#loading-text').style("visibility", "hidden");
 
   drawAreaChartInit();
   calendarInit();

@@ -160,7 +160,19 @@ In the final design we plan to have the user interact with the calendar view to 
 ----
 
 ## Evaluation ##
+What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?
 
+We learned that there were many appliances that draw power when not in use. For example the alarm clock will use a steady 2 to 4 watts throughout each day. This is also true for other things such as the microwave oven, coffee maker and the laundry dryer. Unplugging these types of item when not being used may help to reduce the power consumption considerably.
+
+Answered Questions:
+ 1.  What item(s) have the greatest impact on power consumption?
+    * Some appliances such as the washing machine and refrigerator draw much more power than others when in use but over the course of a month used less than the amplifier which was used more frequently. 
+ 2.  What are typical trends throughout the week/month?
+    * We found that many of the appliances are used seasonally such as the Xmas lights and the projector were found to be used mostly durning the winter months. Throughout the rest of the year mostly utility items were used.
+ 3.  How do items compare in their power draw?
+    * As expected we found that larger items have a big impact when in use but can be less overall when compared to smaller items that are used more frequently.
+
+Our visualization provide a way for the user to understand global trends throughout the year and if desired to view localized trends from day to day, hour to hour and second to second. One thing that we didn't get to in time was the interactive game we had planned. Our visualization project could be much more engaging and informative with the game implemented. 
 
 ## Project Schedule ##
 

@@ -24,5 +24,9 @@
  * Website URL: https://gitdaddy.github.io/CS5890_arrow_dynamics_vis/
 
 
-## Please note that on appliance selection the visualizations may take some time to load. ##
+### Please note that on appliance selection the visualizations may take some time to load. ###
 
+### Non-obvious features ###
+  * Start by clicking on the `Data Selection` box in the upper left-hand corner.
+  * The calendar heat-map days are selectable.
+  * Select a date time interval by selecting any two dates that are not the same.
