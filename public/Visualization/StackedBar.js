@@ -151,7 +151,7 @@ function updateTotalStackedBarData() {
 }
 
 function drawTotalStackedBar() {
-    d3.select('#stacked-bar').style("visibility", "unset");
+    d3.select('#stacked-bar-total').style("visibility", "unset");
 
     updateTotalStackedBarData();
 
@@ -161,7 +161,7 @@ function drawTotalStackedBar() {
 
     d3.select("#totalStackedBarSvg")
         .attr("width", (chartWidth + chartMargin.left + chartMargin.right) * 2)
-        .attr("height", "70")
+        .attr("height", "40")
         .selectAll('rect')
         .data(totalStackedBarData)
         .enter()

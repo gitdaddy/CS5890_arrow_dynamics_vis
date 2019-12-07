@@ -28,6 +28,7 @@ function hideViews() {
 
   d3.select('div#slider-time').style("visibility", "hidden");
   d3.select('#area-chart').style("visibility", "hidden");
+  d3.select('#stacked-bar-total').style("visibility", "hidden");
   d3.select('#stacked-bar').style("visibility", "hidden");
   d3.select('#calendar').style("visibility", "hidden");
 }
@@ -74,6 +75,7 @@ function pageInit() {
     })
     ;
 
+  d3.select('#stacked-bar-total').style("visibility", "hidden");
   d3.select('#stacked-bar').style("visibility", "hidden");
 
   drawAreaChartInit();

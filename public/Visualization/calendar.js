@@ -96,8 +96,10 @@ function resetDates(){
   selectedEnd = undefined;
   drawCalender();
 }
+
 function drawCalender() {
   d3.select('#calendar').style("visibility", "unset");
+  d3.select('#stacked-bar').style("visibility", "hidden");
 
   setCalDataset();
   var startAndEnd = getStartAndEndDates();

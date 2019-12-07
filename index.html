@@ -56,22 +56,21 @@
                     <div class="col-sm"><div id="slider-time"></div></div>
                 </div>
             </div>
-            <h3>Power Usage per Day</h3>
+            <h6>Power Usage per Day</h6>
             <div id="cal-heatmap"></div>
         </div>
-        <div id="stacked-bar">
-            <h4>Total share of usage for selected items over all dates</h4>
+        <div id="stacked-bar-total">
+            <h6>Total share of usage for selected items over all dates</h6>
             <svg id="totalStackedBarSvg">
             </svg>
-            <h4>Total share of usage for selected items over selected dates</h4>
+        </div>
+        <div id="stacked-bar">
+            <h6>Total share of usage for selected items over selected dates</h6>
             <svg id="stackedBarSvg">
             </svg>
         </div>
-        <div class="column-item">
-            <svg id="legendSvg" width="500" height="0"></svg>
-        </div>
         <div id="area-chart">
-            <h3>Power Usage Overview</h3>
+            <h6>Power Usage Overview</h6>
             <div>
                 <select onchange="resChange()" id="time-res">
                     <label>Time resolution</label>
