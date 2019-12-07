@@ -35,6 +35,7 @@ function hideViews() {
 function onItemChecked(item){
   setItemSelectStatus(item.value, item.checked);
   removeStackedBar();
+  removeTotalStackedBar();
 }
 
 function setItemSelectStatus(filename, status) {
@@ -78,8 +79,9 @@ function pageInit() {
   drawAreaChartInit();
   calendarInit();
   var selectedKeys = getSelectedKeys();
-  if (selectedKeys && selectedKeys.length > 0)
+  if (selectedKeys && selectedKeys.length > 0){
     loadSelectedItems();
+  }
 }
 
 

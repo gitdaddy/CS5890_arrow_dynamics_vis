@@ -43,11 +43,12 @@
     <div id="content">
         <div id="calendar">
             <div class="row">
-                <div class="column-item">
-                    <svg id="legendSvg" width="500" height="0"></svg>
-                </div>
+
             </div>
             <div class="row">
+                <div class="column-item">
+                    <svg id="legendSvg1" width="500" height="0"></svg>
+                </div>
                 <div class="column-item">
                     <button onclick="resetDates()">Reset Dates</button>
                 </div>
@@ -59,9 +60,15 @@
             <div id="cal-heatmap"></div>
         </div>
         <div id="stacked-bar">
-            <h3>Total share of usage for selected items</h3>
+            <h4>Total share of usage for selected items</h4>
+            <svg id="totalStackedBarSvg">
+            </svg>
+            <h4>Total share of usage for selected time</h4>
             <svg id="stackedBarSvg">
             </svg>
+        </div>
+        <div class="column-item">
+            <svg id="legendSvg" width="500" height="0"></svg>
         </div>
         <div id="area-chart">
             <h3>Power Usage Overview</h3>

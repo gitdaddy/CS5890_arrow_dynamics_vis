@@ -164,4 +164,6 @@ function setHeatMap(startDate) {
     onClick: onDateClicked,
     legend: [100, currentMaxValue * 0.25, currentMaxValue * 0.50, currentMaxValue * 0.75]
   });
+
+  drawTotalStackedBar();
 }
