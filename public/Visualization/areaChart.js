@@ -71,12 +71,12 @@ function drawAreaChartInit() {
 
 
   yChartAxis.append("text")
-  .attr("y", 0 - (chartMargin.left + 5))
+  .attr("y", 0 - (chartMargin.left  + 15))
   .attr("x",0 - (chartHeight / 2))
   .attr("dy", "1em")
   .style("text-anchor", "middle")
   .style("Fill", "black")
-  .text("Power Usage")
+  .text("Power Usage (Watts)")
   .attr("transform", "rotate(-90)");
 }
 
