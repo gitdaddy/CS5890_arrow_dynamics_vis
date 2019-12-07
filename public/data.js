@@ -12,10 +12,6 @@ python -m http.server
 // { 11/2/2012: 2}
 let fileDataSet = {};
 
-let colorSet = ["#5d8aa8", "#f0f8ff","#e32636", "#efdecd","#e52b50", "#ffbf00","#ff033e", "#9966cc","#a4c639"
-  , "#cd9575","#915c83", "#008000","#00ffff", "#a52a2a","#fdee00", "#007fff","#0000ff", "#1dacd6"
-  ,"#800020", "#480607","#36454f", "#7fff00","#ffa700", "#002e63","#013220", "#1a2421"];
-
 // global dataset of records ordered by date of recording
 // [ {date: Alarmclock:, CoffeeMaker: ... key3: , key4 ...} ]
 let g_dataset = [];

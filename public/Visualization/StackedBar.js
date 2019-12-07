@@ -107,17 +107,6 @@ let total = 0;
 function sumOfItem(item) {
     let sum = 0;
     _.each(g_dataset, function (d) {
-        // if(d.date && startDate && endDate){
-        //     if(d.date.getTime() >= startDate.getTime() && d.date.getTime() <= endDate.getTime()){
-        //         console.log("OH WOOW TIS TRUE!");
-        //         console.log(d.date + " : " + startDate);
-        //         console.log(d.date.getTime`() + " : " + startDate.getTime());
-        //         console.log(d.date + " : " + endDate);
-        //         console.log(d.date.getTime() + " : " + endDate.getTime());
-        //         throw ("bruh");
-        //         sum += d[item];
-        //     }
-        // }
         sum += d[item];
     });
     //console.log("SUM " + item);
