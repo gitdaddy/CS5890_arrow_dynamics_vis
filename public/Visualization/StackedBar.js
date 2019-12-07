@@ -88,6 +88,9 @@ function removeTotalStackedBar() {
 }
 
 function scaleBar(value, totalVal){
+    if(totalVal <= 0){
+        return 0;
+    }
     return value/totalVal *(chartWidth + chartMargin.left + chartMargin.right + 20);
 }
 
@@ -145,8 +148,6 @@ function drawTotalStackedBar() {
     updateTotalStackedBarData();
 
     removeTotalStackedBar();
-
-    console.log(totalStackedBarData);
 
     d3.select("#totalStackedBarSvg")
         .attr("width", (chartWidth + chartMargin.left + chartMargin.right) * 2)
