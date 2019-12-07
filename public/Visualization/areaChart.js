@@ -55,11 +55,29 @@ function drawAreaChartInit() {
 
   xChartAxis = chartSvg.append('g')
   .attr("transform", `translate(${chartMargin.left}, ${chartHeight})`)
-  .call(d3.axisBottom(xChartScale));
+  .call(d3.axisBottom(xChartScale))
+  .append("text")             
+  .attr("transform",
+        "translate(" + (chartWidth/2) + " ," + 
+                       30 + ")")
+  .style("text-anchor", "middle")
+  .style("Fill", "black")
+  .text("Date")
+  ;
 
   yChartAxis = chartSvg.append('g')
   .attr("transform", `translate(${chartMargin.left},0)`)
   .call(d3.axisLeft(yChartScale));
+
+
+  yChartAxis.append("text")
+  .attr("y", 0 - (chartMargin.left + 5))
+  .attr("x",0 - (chartHeight / 2))
+  .attr("dy", "1em")
+  .style("text-anchor", "middle")
+  .style("Fill", "black")
+  .text("Power Usage")
+  .attr("transform", "rotate(-90)");
 }
 
 function resChange() {
