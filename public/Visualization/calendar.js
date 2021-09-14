@@ -16,6 +16,8 @@ function onDateClicked(date, count) {
   .style("stroke", "black")
   .style("stroke-width", 3);
 
+  updateHelpSequence(1);
+
   if (selectedStart && selectedEnd) {
     var diffStart = Math.abs(selectedStart.date - date);
     var diffEnd = Math.abs(selectedEnd.date - date);

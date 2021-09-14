@@ -60,4 +60,9 @@ function closeNav() {
   document.getElementById("main").style.visibility = "visible";
   // load all the items selected while the tab was open
   loadSelectedItems();
+  
+  if (getSelectedKeys().length !== 0) {
+    document.getElementById("calendar").style.visibility = "visible";
+    updateHelpSequence(0);
+  }
 }

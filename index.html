@@ -35,13 +35,19 @@
 </head>
 
 <body onload="pageInit()">
+    <div class="topnav">
+        <a class="active" href="index.html">Energy Awareness</a>
+        <!-- <a href="https://www.youtube.com/watch?v=uM7_VyctG0w" target ="_blank">Screen Cast</a>
+        <a href="https://github.com/gitdaddy/CS5890_arrow_dynamics_vis/blob/master/process.md" target ="_blank" >Process File</a> -->
+    </div>
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">Close</a>
     </div>
 
     <div id="content">
-        <div id="calendar">
+        <div id="calendar" class="calendar-style sq-date">
+            <span id="tt_seq_1" class="sq-date-text">Select a start and end date to view more details</span>
             <div class="row">
                 <div class="column-item">
                     <svg id="legendSvg" width="500" height="0"></svg>
@@ -51,7 +57,6 @@
                 </div>
             </div>
             <div class="row">
-
                 <div class="column-item">
                     <button onclick="resetDates()">Reset Dates</button>
                 </div>
@@ -89,15 +94,9 @@
     </div>
 
     <!--This must be below all content as the button is not clickable otherwise-->
-    <div id="main">
-        <button class="openbtn" onclick="openNav()">Data Selection</button>
+    <div id="main" class="sq-right">
+        <span id="tt_seq_0" class="sq-right-text">To begin: Select which devices to analyze</span>
+        <button class="openbtn" onclick="openNav()">Device Selection</button>
     </div>
-
-    <div class="topnav">
-        <a class="active" href="index.html">Home</a>
-        <a href="https://www.youtube.com/watch?v=uM7_VyctG0w" target ="_blank">Screen Cast</a>
-        <a href="https://github.com/gitdaddy/CS5890_arrow_dynamics_vis/blob/master/process.md" target ="_blank" >Process File</a>
-    </div>
-
 </body>
 </html>

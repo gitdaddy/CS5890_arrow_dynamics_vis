@@ -126,3 +126,73 @@ body {
   background-color: #9B4F0F;
   color: white;
 }
+
+.sq-right {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.sq-right .sq-right-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 50px;
+  left: 105%;
+}
+
+.sq-right .sq-right-text::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.sq-date {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.sq-date .sq-date-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 36%;
+  left: 50%;
+}
+
+.sq-date .sq-date-text::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.calendar-style {
+  visibility: hidden;
+}
