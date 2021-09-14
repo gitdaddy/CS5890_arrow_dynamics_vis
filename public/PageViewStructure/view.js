@@ -6,7 +6,7 @@
 
 // default settings
 let g_settings = {
-  seqHelpers: 
+  ea_seqHelpers: 
   {
     label: "Show setup tool-tips",
     value: true,
@@ -16,8 +16,8 @@ let g_settings = {
 }
 
 function updateHelpSequence(completedIdx) {
-  var c = g_settings.seqHelpers.curHelpSequence;
-  var t = g_settings.seqHelpers.totalSequenceHelpers;
+  var c = g_settings.ea_seqHelpers.curHelpSequence;
+  var t = g_settings.ea_seqHelpers.totalSequenceHelpers;
   // no going back
   if (c > completedIdx || completedIdx >= t) return;
 
@@ -28,7 +28,7 @@ function updateHelpSequence(completedIdx) {
   }
   
   var n = completedIdx + 1;
-  g_settings.seqHelpers.curHelpSequence = n;
+  g_settings.ea_seqHelpers.curHelpSequence = n;
 
   storeLocalSettings(g_settings);
 
@@ -105,8 +105,8 @@ function pageInit() {
 
   // set the helper sequence according to user history
   var seqStr = "tt_seq_";
-  var t = g_settings.seqHelpers.totalSequenceHelpers;
-  var c = g_settings.seqHelpers.curHelpSequence;
+  var t = g_settings.ea_seqHelpers.totalSequenceHelpers;
+  var c = g_settings.ea_seqHelpers.curHelpSequence;
   if (t !== c) {
     var s = seqStr + c.toString();
     document.getElementById(s).style.visibility = "visible";
